@@ -28,6 +28,8 @@ var numberLength = v => (v+'').length
 var numberLength = v => `${v}`.length
 ```
 
+把数字变成字符串的四种方法
+
 # End Zeros
 
 ## My Solution
@@ -51,7 +53,7 @@ function endZeros(value: number): number {
 
 ## Others' Solutions
 
-### replace
+### replace minus
 
 ```typescript
 function endZeros(value: number): number {
@@ -84,7 +86,7 @@ function backwardString(value: string): string {
 
 ## Others' Solutions
 
-### spread
+### spread reverse join
 
 ```typescript
 var backwardString = (value: string): string =>[...value].reverse().join("");
@@ -196,6 +198,8 @@ function maxDigit(value) {
 }
 ```
 
+注意`@ts-ignore`的用法
+
 ### sort pop
 
 ```typescript
@@ -239,6 +243,21 @@ function splitPairs(text: string): string[] {
 
 ## Others' Solutions
 
+### match regexp
+
+```typescript
+var splitPairs = t => (t + "_").match(/../g) || []
+```
+
+### spread recurisve
+
+```typescript
+function splitPairs(text: string): string[] {
+    let [a, b = '_', ...c] = text;
+    return !a ? [] : [ a+b, ...splitPairs(c.join(''))];
+}
+```
+
 # Beginning Zeros
 
 ## My Solution
@@ -258,7 +277,7 @@ function beginningZeros(text: string): number {
 var beginningZeros = text => text.match(/^0*/)[0].length;
 ```
 
-
+差在了`+`和`*`
 
 # Nearest Value
 
@@ -276,6 +295,19 @@ function nearestValue(values: number[], search: number): number {
 
 ## Others' Solutions
 
+### sort square
+
+```typescript
+var nearestValue = (v, s) => v.sort((a,b) => (s-a)**2 - (s-b)**2 || a-b )[0]
+```
+
+### sort Math.abs
+
+```typescript
+var nearestValue = (v: number[], s: number): number =>
+    v.sort( (a,b) => Math.abs( s-a) - Math.abs(s-b) || a-b )[0];
+```
+
 # Between Markers
 
 ## My Solution
@@ -290,6 +322,12 @@ function betweenMarkers(line: string, left: string, right: string): string {
 
 ## Others' Solutions
 
+### split
+
+```typescript
+var betweenMarkers = (s: string, l: string, r: string): string => s.split( l )[1].split( r )[0];
+```
+
 # Correct Sentence
 
 ## My Solution
@@ -302,6 +340,35 @@ function correctSentence(text: string): string {
 
 ## Others' Solutions
 
+### regexp replace
+
+```typescript
+function correctSentence(text: string): string {
+    return text
+        .replace(/^./, x => x.toUpperCase())
+        .replace(/\.$/, '')
+        + '.';
+}
+```
+
+### regexp substr
+
+```typescript
+function correctSentence(text: string): string {
+    return text[0].toUpperCase() + (text.replace(/\.?$/, '.')).substr(1);
+}
+```
+
+### charAt concat substring
+
+```typescript
+function correctSentence(text) {
+    return text.charAt(0).toUpperCase().concat(text.substring(1), '.').replace('..', '.');
+}
+```
+
+
+
 # IS Even
 
 ## My Solution
@@ -313,3 +380,20 @@ function isEven(num: number): boolean {
 ```
 
 ## Others' Solutions
+
+### single `!`
+
+```typescript
+function isEven(num: number): boolean {
+    return !(num % 2)
+}
+```
+
+### strict operator
+
+```typescript
+function isEven(num: number): boolean {
+    return num % 2 === 0;
+}
+```
+
